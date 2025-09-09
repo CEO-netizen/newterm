@@ -64,7 +64,6 @@ Edit `~/.config/newterm/config.json` to customize:
 "keybindings": {
   "copy": "<Ctrl><Shift>C",
   "paste": "<Ctrl><Shift>V",
-  "new_tab": "<Ctrl><Shift>T"
 }
 ```
 
