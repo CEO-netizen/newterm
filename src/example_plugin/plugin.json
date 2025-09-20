@@ -1,0 +1,12 @@
+{
+  "name": "example_plugin",
+  "version": "1.0.0",
+  "description": "Example plugin demonstrating NewTerm plugin API",
+  "author": "NewTerm Team",
+  "main": "plugin.py",
+  "dependencies": [],
+  "config": {
+    "show_welcome": true,
+    "custom_message": "Welcome to NewTerm with plugins!"
+  }
+}

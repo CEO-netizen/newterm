@@ -1,3 +1,22 @@
+"""
+NewTerm Configuration Module
+
+Copyright (C) 2024 NewTerm Team
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
+
 import json
 import os
 import shutil
@@ -44,10 +63,62 @@ class Config:
             "keybindings": {
                 "copy": "<Ctrl><Shift>C",
                 "paste": "<Ctrl><Shift>V",
-                "new_tab": "<Ctrl><Shift>T"
+                "new_tab": "<Ctrl><Shift>T",
+                "close_tab": "<Ctrl><Shift>W",
+                "next_tab": "<Ctrl>Page_Down",
+                "prev_tab": "<Ctrl>Page_Up",
+                "split_horizontal": "<Ctrl><Alt>H",
+                "split_vertical": "<Ctrl><Alt>V",
+                "close_pane": "<Ctrl><Alt>Q",
+                "zoom_in": "<Ctrl>plus",
+                "zoom_out": "<Ctrl>minus",
+                "reset_zoom": "<Ctrl>0",
+                "find": "<Ctrl><Shift>F",
+                "command_palette": "<Ctrl><Shift>P",
+                "preferences": "<Ctrl>comma",
+                "toggle_fullscreen": "F11",
+                "new_window": "<Ctrl><Shift>N",
+                "quit": "<Ctrl><Alt>Q",
+                "scroll_up": "<Ctrl><Shift>Up",
+                "scroll_down": "<Ctrl><Shift>Down",
+                "scroll_to_top": "<Ctrl>Home",
+                "scroll_to_bottom": "<Ctrl>End",
+                "page_up": "Page_Up",
+                "page_down": "Page_Down",
+                "select_all": "<Ctrl><Shift>A",
+                "select_word": "<Ctrl><Alt>W",
+                "select_line": "<Ctrl><Shift>L",
+                "clear_selection": "Escape",
+                "split_pane_h": "<Ctrl><Alt>H",
+                "split_pane_v": "<Ctrl><Alt>V"
             },
             "scrollback_lines": 1000,
-            "gpu_acceleration": True
+            "gpu_acceleration": True,
+            "restore_session": True,
+            "show_menu_bar": True,
+            "show_status_bar": False,
+            "auto_save_session": True,
+            "audible_bell": False,
+            "urgent_bell": True,
+            "mouse_autohide": False,
+            "debug_mode": False,
+            "log_commands": False,
+            "plugins": {
+                "enabled": [],
+                "disabled": [],
+                "auto_load": True
+            },
+            "session": {
+                "max_tabs": 10,
+                "save_on_exit": True,
+                "restore_on_start": True
+            },
+            "performance": {
+                "max_scrollback": 10000,
+                "terminal_bell": True,
+                "cursor_blink": True,
+                "cursor_shape": "block"
+            }
         }
 
     def save_config(self):
