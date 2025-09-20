@@ -178,13 +178,13 @@ my_plugin/
 - **PreferencesDialog**: Advanced settings interface
 
 ### Current Features Status
-- ✅ Full keybinding system
-- ✅ Tab support with session management
-- ✅ Plugin system with API
-- ✅ Advanced preferences dialog
-- ✅ Theme and font customization
-- ✅ GPU acceleration support
-- ✅ Wayland compatibility
+- Full keybinding system
+- Tab support with session management
+- Plugin system with API
+- Advanced preferences dialog
+- Theme and font customization
+- GPU acceleration support
+- Wayland compatibility
 
 ### Future Enhancements
 - Command palette implementation
