@@ -1,222 +1,130 @@
-# NewTerm - Advanced Terminal Emulator
+# NewTerm
 
-A highly customizable and feature-rich terminal emulator built with Python, GTK, and VTE, designed to be compatible with Wayland and GPU-accelerated.
+A highly customizable terminal emulator for Wayland with GPU acceleration and customizable themes.
 
 ## Features
 
-### Core Terminal Features
-- Full terminal emulation with VTE
-- GPU acceleration for smooth performance
-- Wayland compatible GUI
-- Session management (save/restore tabs and state)
-- Multiple tab support with drag-and-drop
-- Context menus for tabs and terminals
-
-### Advanced Keybinding System
-- Comprehensive keybinding management
-- Configurable shortcuts for all actions
-- Support for complex key combinations (Ctrl+Alt+Shift+key)
-- Import/export keybinding configurations
-- Conflict detection and resolution
-
-### Plugin System
-- Extensible plugin architecture
-- Plugin API for custom functionality
-- Plugin management interface
-- Security sandboxing for plugins
-- Auto-loading and dependency management
-
-### Advanced Preferences
-- Comprehensive settings dialog with multiple tabs
-- Real-time preview of changes
-- Theme customization with color pickers
-- Font selection and sizing
-- Performance and debug settings
-- Plugin management interface
-
-### User Interface
-- Modern tabbed interface
-- Customizable menu bar
-- Status bar support
-- Fullscreen mode
-- Command palette (planned)
-- Multiple window support
-
-## Requirements
-
-- Python 3.8+
-- PyGObject (GTK bindings for Python)
-- VTE (Virtual Terminal Emulator)
-- GTK 3.0+
+- **GPU Acceleration**: Hardware-accelerated rendering for smooth performance
+- **Customizable Themes**: Multiple UI themes including Default, Dark, and OLED
+- **Tab Management**: Multi-tab interface with customizable tab styling
+- **Plugin System**: Extensible plugin architecture for additional functionality
+- **Keybinding Management**: Customizable keyboard shortcuts
+- **Session Management**: Save and restore terminal sessions
+- **Wayland Native**: Built specifically for Wayland compositors
 
 ## Installation
 
-1. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   sudo pacman -S vte3  # On Arch Linux
-   sudo apt install libvte-2.91-dev  # On Ubuntu/Debian
-   ```
+### From Source
 
-2. Run the terminal:
-   ```bash
-   python src/main.py
-   ```
+```bash
+git clone https://github.com/CEO-netizen/newterm.git
+cd newterm
+pip install -e .
+```
+
+### From Package (Arch Linux)
+
+```bash
+makepkg -si
+```
 
 ## Usage
 
-### Basic Usage
-- The terminal opens with your default shell
-- Use tabs to organize multiple terminal sessions
-- Right-click on tabs or terminals for context menus
-- Use the menu bar for all operations
+Run NewTerm with:
 
-### Keyboard Shortcuts
-- `Ctrl+Shift+T`: New tab
-- `Ctrl+Shift+W`: Close current tab
-- `Ctrl+Page_Down/Up`: Switch between tabs
-- `Ctrl+Shift+C/V`: Copy/paste
-- `Ctrl+Shift+P`: Command palette
-- `Ctrl+comma`: Open preferences
-- `F11`: Toggle fullscreen
-- `Ctrl+Shift+N`: New window
-- `Ctrl+Shift+Q`: Quit
-
-### Session Management
-- Sessions are automatically saved on exit
-- Previous sessions restore on startup (configurable)
-- Maximum number of tabs can be configured
-- Working directories are preserved per tab
+```bash
+newterm
+```
 
 ## Configuration
 
-Edit `~/.config/newterm/config.json` to customize:
+NewTerm stores configuration in `~/.config/newterm/config.json`. You can customize:
 
-### Theme Configuration
-```json
-"theme": {
-  "background_color": "#000000",
-  "foreground_color": "#FFFFFF",
-  "cursor_color": "#FFFFFF",
-  "palette": ["#000000", "#800000", ...]
-}
-```
+- UI themes (Default, Dark, OLED)
+- Terminal colors and fonts
+- Keybindings
+- Plugin settings
+- Performance options
 
-### Font Configuration
-```json
-"font": {
-  "family": "Monospace",
-  "size": 12
-}
-```
+## UI Themes
 
-### Keybindings Configuration
-```json
-"keybindings": {
-  "copy": "<Ctrl><Shift>C",
-  "paste": "<Ctrl><Shift>V",
-  "new_tab": "<Ctrl><Shift>T",
-  "close_tab": "<Ctrl><Shift>W",
-  "next_tab": "<Ctrl>Page_Down",
-  "prev_tab": "<Ctrl>Page_Up",
-  "preferences": "<Ctrl>comma",
-  "toggle_fullscreen": "F11"
-}
-```
+NewTerm includes several built-in UI themes:
 
-### Session Configuration
-```json
-"session": {
-  "max_tabs": 10,
-  "save_on_exit": true,
-  "restore_on_start": true
-}
-```
+- **Default**: Light theme with traditional colors
+- **Dark**: Dark theme for low-light environments
+- **OLED**: Ultra-dark theme optimized for OLED displays
 
-### Plugin Configuration
-```json
-"plugins": {
-  "enabled": ["plugin1", "plugin2"],
-  "disabled": ["plugin3"],
-  "auto_load": true
-}
-```
+### OLED Theme
 
-### Performance Configuration
-```json
-"performance": {
-  "max_scrollback": 10000,
-  "terminal_bell": true,
-  "cursor_blink": true,
-  "cursor_shape": "block"
-}
-```
+The OLED theme is specifically designed for OLED displays, featuring:
+- Pure black backgrounds (#000000)
+- High contrast text for readability
+- Reduced eye strain in dark environments
+- Optimized for OLED screen technology
 
-## Plugin Development
+## Keybindings
 
-NewTerm supports plugins to extend functionality. Create a plugin by:
+Default keybindings include:
 
-1. Create a plugin directory in `~/.config/newterm/plugins/`
-2. Add a `plugin.json` configuration file
-3. Implement your plugin class inheriting from `PluginBase`
-4. Use the plugin API for terminal events and UI integration
+- `Ctrl+Shift+T`: New tab
+- `Ctrl+Shift+W`: Close tab
+- `Ctrl+Shift+C`: Copy
+- `Ctrl+Shift+V`: Paste
+- `Ctrl+Shift+F`: Find
+- `Ctrl+Shift+P`: Command palette
+- `F11`: Toggle fullscreen
 
-Example plugin structure:
-```
-my_plugin/
-├── plugin.json
-└── plugin.py
-```
+## Plugin System
+
+NewTerm supports plugins for extended functionality. Plugins can:
+- Add new menu items
+- Provide additional themes
+- Extend terminal functionality
+- Integrate with external tools
 
 ## Development
 
-### Architecture
-- **KeyBindingManager**: Handles all keyboard shortcuts and actions
-- **TabManager**: Manages multiple terminal tabs and sessions
-- **PluginManager**: Loads and manages plugins
-- **SessionManager**: Handles session save/restore functionality
-- **PreferencesDialog**: Advanced settings interface
+### Requirements
 
-### Current Features Status
-- Full keybinding system
-- Tab support with session management
-- Plugin system with API
-- Advanced preferences dialog
-- Theme and font customization
-- GPU acceleration support
-- Wayland compatibility
+- Python 3.8+
+- PyGObject
+- VTE3
+- GTK+ 3.0
 
-### Future Enhancements
-- Command palette implementation
-- Split pane support
-- Search functionality
-- Plugin marketplace
-- Additional terminal features
+### Building
 
-## Compatibility
-
-Built with GTK and VTE, supporting:
-- Wayland native support
-- X11 compatibility
-- GPU acceleration for optimal performance
-- Modern Linux desktop environments
-- Python 3.8+ compatibility
-
-## License
-
-This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
+```bash
+python -m build --wheel
+```
 
 ## Contributing
 
-Contributions are welcome! Please see the development documentation for:
-- Plugin development guidelines
-- Code style and architecture
-- Testing procedures
-- Feature request process
+Contributions are welcome! Please feel free to submit pull requests, report issues, or suggest features.
 
-## Feature requests
-For feature requests contact me at one of three ways:
+## License
 
-- Email: zeroday0x00@disroot.org
-- Jabber/xmpp: cr4ck3d-ng@xmpp.is
-- Telegram: @znodx
+This project is licensed under the GNU General Public License v3 (GPLv3).
+
+## Changelog
+
+### Version 0.1.4
+
+- Added OLED UI theme for OLED displays
+- Improved theme system with dynamic color application
+- Enhanced preferences dialog with UI theme selection
+- Updated version numbers across all files
+
+### Version 0.1.3
+
+- Initial release
+- Basic terminal functionality
+- Plugin system foundation
+- Theme support
+
+## Support
+
+For support, please open an issue on GitHub or contact the maintainer.
+
+---
+
+**NewTerm** - A modern, customizable terminal emulator for Wayland

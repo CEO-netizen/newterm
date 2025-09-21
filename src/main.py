@@ -64,6 +64,9 @@ class TerminalWindow(Gtk.Window):
         # Connect keybindings
         self.keybinding_manager.connect_to_window(self, None)
 
+        # Apply UI theme
+        self.apply_ui_theme()
+
         # Set up window properties
         self.show_all()
 
@@ -201,6 +204,99 @@ class TerminalWindow(Gtk.Window):
         # Show all widgets
         self.show_all()
 
+    def apply_ui_theme(self):
+        """Apply the current UI theme to menus and window."""
+        ui_theme_name = self.config.get('ui_theme', 'Default')
+        ui_themes = self.config.get('ui_themes', {})
+        theme_colors = ui_themes.get(ui_theme_name, ui_themes.get('Default', {}))
+
+        if not theme_colors:
+            return
+
+        # Apply CSS styling for UI elements
+        css = f"""
+        /* Menu bar styling */
+        .menubar {{
+            background-color: {theme_colors.get('menu_bar_bg', '#F5F5F5')};
+            color: {theme_colors.get('menu_bar_fg', '#000000')};
+            border-bottom: 1px solid {theme_colors.get('tab_bar_bg', '#E8E8E8')};
+        }}
+
+        /* Menu items */
+        .menubar menuitem {{
+            background-color: {theme_colors.get('menu_item_bg', '#FFFFFF')};
+            color: {theme_colors.get('menu_item_fg', '#000000')};
+        }}
+
+        .menubar menuitem:hover {{
+            background-color: {theme_colors.get('menu_item_hover_bg', '#E0E0E0')};
+            color: {theme_colors.get('menu_item_hover_fg', '#000000')};
+        }}
+
+        /* Notebook tabs */
+        .notebook tab {{
+            background-color: {theme_colors.get('tab_bg', '#D0D0D0')};
+            color: {theme_colors.get('tab_fg', '#000000')};
+            padding: 4px 8px;
+            border: 1px solid {theme_colors.get('tab_bar_bg', '#E8E8E8')};
+            border-bottom: none;
+        }}
+
+        .notebook tab:hover {{
+            background-color: {theme_colors.get('tab_hover_bg', '#C0C0C0')};
+            color: {theme_colors.get('tab_hover_fg', '#000000')};
+        }}
+
+        .notebook tab:checked {{
+            background-color: {theme_colors.get('tab_active_bg', '#FFFFFF')};
+            color: {theme_colors.get('tab_active_fg', '#000000')};
+        }}
+
+        /* Tab close buttons */
+        .tab-close-button {{
+            background-color: {theme_colors.get('button_bg', '#E0E0E0')};
+            color: {theme_colors.get('button_fg', '#000000')};
+            border: none;
+            border-radius: 2px;
+            padding: 2px 4px;
+        }}
+
+        .tab-close-button:hover {{
+            background-color: {theme_colors.get('button_bg', '#E0E0E0')};
+        }}
+
+        /* Window background */
+        .window {{
+            background-color: {theme_colors.get('window_bg', '#FFFFFF')};
+        }}
+        """
+
+        # Apply CSS to the window
+        css_provider = Gtk.CssProvider()
+        css_provider.load_from_data(css.encode())
+
+        # Get the screen and apply to all widgets
+        screen = Gdk.Screen.get_default()
+        style_context = Gtk.StyleContext()
+        style_context.add_provider_for_screen(
+            screen,
+            css_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+
+        # Apply to specific widgets
+        if hasattr(self, 'menubar') and self.menubar:
+            self.menubar.get_style_context().add_provider(
+                css_provider,
+                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+            )
+
+        if hasattr(self, 'notebook') and self.notebook:
+            self.notebook.get_style_context().add_provider(
+                css_provider,
+                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+            )
+
     def restore_or_create_initial_tab(self):
         """Restore previous session or create initial tab."""
         if self.config.get('restore_session', True):
@@ -329,6 +425,9 @@ class TerminalWindow(Gtk.Window):
             for tab in self.tab_manager.get_tabs():
                 tab.apply_theme()
 
+            # Apply UI theme changes
+            self.apply_ui_theme()
+
             # Reload keybindings
             self.keybinding_manager.load_from_config(new_config)
             self.keybinding_manager.connect_to_window(self, None)
@@ -343,7 +442,7 @@ class TerminalWindow(Gtk.Window):
         """Handle about dialog."""
         about_dialog = Gtk.AboutDialog()
         about_dialog.set_program_name("NewTerm")
-        about_dialog.set_version("2.0.0")
+        about_dialog.set_version("2.0.1")
         about_dialog.set_comments("A highly customizable terminal emulator")
         about_dialog.set_website("https://github.com/CEO-netizen/newterm")
         about_dialog.set_copyright("Copyright © 2024 NewTerm Team")

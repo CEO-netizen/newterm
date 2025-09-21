@@ -1,4 +1,3 @@
-"""
 NewTerm Configuration Module
 
 Copyright (C) 2024 NewTerm Team
@@ -45,6 +44,7 @@ class Config:
 
     def get_default_config(self):
         return {
+            "ui_theme": "Default",
             "theme": {
                 "background_color": "#000000",
                 "foreground_color": "#FFFFFF",
@@ -55,6 +55,62 @@ class Config:
                     "#808080", "#FF0000", "#00FF00", "#FFFF00",
                     "#0000FF", "#FF00FF", "#00FFFF", "#FFFFFF"
                 ]
+            },
+            "ui_themes": {
+                "Default": {
+                    "menu_bar_bg": "#F5F5F5",
+                    "menu_bar_fg": "#000000",
+                    "menu_item_bg": "#FFFFFF",
+                    "menu_item_fg": "#000000",
+                    "menu_item_hover_bg": "#E0E0E0",
+                    "menu_item_hover_fg": "#000000",
+                    "tab_bar_bg": "#E8E8E8",
+                    "tab_bg": "#D0D0D0",
+                    "tab_fg": "#000000",
+                    "tab_active_bg": "#FFFFFF",
+                    "tab_active_fg": "#000000",
+                    "tab_hover_bg": "#C0C0C0",
+                    "tab_hover_fg": "#000000",
+                    "button_bg": "#E0E0E0",
+                    "button_fg": "#000000",
+                    "window_bg": "#FFFFFF"
+                },
+                "Dark": {
+                    "menu_bar_bg": "#2D2D2D",
+                    "menu_bar_fg": "#FFFFFF",
+                    "menu_item_bg": "#3C3C3C",
+                    "menu_item_fg": "#FFFFFF",
+                    "menu_item_hover_bg": "#4A4A4A",
+                    "menu_item_hover_fg": "#FFFFFF",
+                    "tab_bar_bg": "#2D2D2D",
+                    "tab_bg": "#3C3C3C",
+                    "tab_fg": "#FFFFFF",
+                    "tab_active_bg": "#4A4A4A",
+                    "tab_active_fg": "#FFFFFF",
+                    "tab_hover_bg": "#555555",
+                    "tab_hover_fg": "#FFFFFF",
+                    "button_bg": "#4A4A4A",
+                    "button_fg": "#FFFFFF",
+                    "window_bg": "#2D2D2D"
+                },
+                "OLED": {
+                    "menu_bar_bg": "#000000",
+                    "menu_bar_fg": "#FFFFFF",
+                    "menu_item_bg": "#0A0A0A",
+                    "menu_item_fg": "#FFFFFF",
+                    "menu_item_hover_bg": "#1A1A1A",
+                    "menu_item_hover_fg": "#FFFFFF",
+                    "tab_bar_bg": "#000000",
+                    "tab_bg": "#0A0A0A",
+                    "tab_fg": "#CCCCCC",
+                    "tab_active_bg": "#1A1A1A",
+                    "tab_active_fg": "#FFFFFF",
+                    "tab_hover_bg": "#2A2A2A",
+                    "tab_hover_fg": "#FFFFFF",
+                    "button_bg": "#1A1A1A",
+                    "button_fg": "#FFFFFF",
+                    "window_bg": "#000000"
+                }
             },
             "font": {
                 "family": "Monospace",

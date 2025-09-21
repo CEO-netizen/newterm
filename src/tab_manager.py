@@ -1,4 +1,3 @@
-"""
 NewTerm Tab Manager Module
 
 Copyright (C) 2024 NewTerm Team
@@ -196,8 +195,6 @@ class TabManager:
         self.notebook: Optional[Gtk.Notebook] = None
         self.tab_close_buttons: Dict[TerminalTab, Gtk.Button] = {}
 
-
-
     def create_notebook(self) -> Gtk.Notebook:
         """Create the notebook widget for tabs."""
         if self.notebook is None:
@@ -210,22 +207,57 @@ class TabManager:
             self.notebook.connect("switch-page", self.on_tab_switched)
             self.notebook.connect("page-removed", self.on_tab_removed)
 
-            # Style the notebook
-            css_provider = Gtk.CssProvider()
-            css_provider.load_from_data(b"""
-                .notebook tab {
-                    padding: 4px 8px;
-                    border: 1px solid #555;
-                    background-color: #333;
-                    color: #fff;
-                }
-                .notebook tab:active {
-                    background-color: #555;
-                }
-            """)
-            self.notebook.get_style_context().add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+            # Style the notebook with theme colors
+            self._apply_notebook_theme()
 
         return self.notebook
+
+    def _apply_notebook_theme(self):
+        """Apply theme colors to the notebook tabs."""
+        ui_theme_name = self.config.get('ui_theme', 'Default')
+        ui_themes = self.config.get('ui_themes', {})
+        theme_colors = ui_themes.get(ui_theme_name, ui_themes.get('Default', {}))
+
+        if not theme_colors:
+            return
+
+        # Create CSS with theme colors
+        css = f"""
+        .notebook tab {{
+            background-color: {theme_colors.get('tab_bg', '#D0D0D0')};
+            color: {theme_colors.get('tab_fg', '#000000')};
+            padding: 4px 8px;
+            border: 1px solid {theme_colors.get('tab_bar_bg', '#E8E8E8')};
+            border-bottom: none;
+        }}
+
+        .notebook tab:hover {{
+            background-color: {theme_colors.get('tab_hover_bg', '#C0C0C0')};
+            color: {theme_colors.get('tab_hover_fg', '#000000')};
+        }}
+
+        .notebook tab:checked {{
+            background-color: {theme_colors.get('tab_active_bg', '#FFFFFF')};
+            color: {theme_colors.get('tab_active_fg', '#000000')};
+        }}
+
+        .tab-close-button {{
+            background-color: {theme_colors.get('button_bg', '#E0E0E0')};
+            color: {theme_colors.get('button_fg', '#000000')};
+            border: none;
+            border-radius: 2px;
+            padding: 2px 4px;
+        }}
+
+        .tab-close-button:hover {{
+            background-color: {theme_colors.get('button_bg', '#E0E0E0')};
+        }}
+        """
+
+        # Apply CSS to the notebook
+        css_provider = Gtk.CssProvider()
+        css_provider.load_from_data(css.encode())
+        self.notebook.get_style_context().add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
     def new_tab(self, title: str = "Terminal", directory: str = None) -> TerminalTab:
         """Create a new tab."""
@@ -363,8 +395,6 @@ class TabManager:
         prev_index = (current_index - 1) % len(self.tabs)
         self.set_active_tab(self.tabs[prev_index])
         return True
-
-
 
     def get_notebook(self) -> Gtk.Notebook:
         """Get the notebook widget."""

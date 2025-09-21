@@ -1,4 +1,3 @@
-"""
 NewTerm Preferences Dialog Module
 
 Copyright (C) 2024 NewTerm Team
@@ -40,6 +39,7 @@ class PreferencesDialog:
         self.current_config = None
 
         # UI components
+        self.ui_theme_combo = None
         self.theme_combo = None
         self.font_family_entry = None
         self.font_size_spin = None
@@ -148,9 +148,26 @@ class PreferencesDialog:
         vbox.set_border_width(10)
         frame.add(vbox)
 
+        # UI Theme selection
+        ui_theme_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        ui_theme_label = Gtk.Label(label="UI Theme:")
+        ui_theme_label.set_xalign(0)
+
+        self.ui_theme_combo = Gtk.ComboBoxText()
+        ui_themes = self._get_available_ui_themes()
+        for theme_name in ui_themes:
+            self.ui_theme_combo.append_text(theme_name)
+
+        current_ui_theme = self.current_config.get('ui_theme', 'Default')
+        self.ui_theme_combo.set_active(ui_themes.index(current_ui_theme) if current_ui_theme in ui_themes else 0)
+
+        ui_theme_box.pack_start(ui_theme_label, False, False, 0)
+        ui_theme_box.pack_start(self.ui_theme_combo, False, False, 0)
+        vbox.pack_start(ui_theme_box, False, False, 0)
+
         # Theme selection
         theme_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-        theme_label = Gtk.Label(label="Theme:")
+        theme_label = Gtk.Label(label="Terminal Theme:")
         theme_label.set_xalign(0)
 
         self.theme_combo = Gtk.ComboBoxText()
@@ -393,6 +410,10 @@ class PreferencesDialog:
 
         return frame
 
+    def _get_available_ui_themes(self) -> List[str]:
+        """Get list of available UI themes."""
+        return ["Default", "Dark", "OLED"]
+
     def _get_available_themes(self) -> List[str]:
         """Get list of available themes."""
         themes = ["Default", "Dark", "Light", "Solarized Dark", "Solarized Light"]
@@ -445,6 +466,14 @@ class PreferencesDialog:
         self.current_config['show_menu_bar'] = self.show_menu_bar_check.get_active()
         self.current_config['gpu_acceleration'] = self.gpu_acceleration_check.get_active()
         self.current_config['scrollback_lines'] = self.scrollback_spin.get_value_as_int()
+
+        # UI Theme settings
+        if self.ui_theme_combo:
+            ui_theme_iter = self.ui_theme_combo.get_active_iter()
+            if ui_theme_iter:
+                ui_theme_model = self.ui_theme_combo.get_model()
+                ui_theme_name = ui_theme_model[ui_theme_iter][0]
+                self.current_config['ui_theme'] = ui_theme_name
 
         # Theme settings
         if 'theme' not in self.current_config:
